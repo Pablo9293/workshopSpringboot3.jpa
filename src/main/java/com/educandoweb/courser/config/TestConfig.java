@@ -1,7 +1,6 @@
 package com.educandoweb.courser.config;
 
 import java.time.Instant;
-
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.educandoweb.courser.entities.Category;
 import com.educandoweb.courser.entities.Order;
 import com.educandoweb.courser.entities.User;
 import com.educandoweb.courser.entities.enums.OrderStatus;
+import com.educandoweb.courser.repositories.CategoryRepository;
 import com.educandoweb.courser.repositories.OrderRepository;
 import com.educandoweb.courser.repositories.UserRepository;
 
@@ -25,9 +26,21 @@ public class TestConfig implements CommandLineRunner {
 	//Fazer o sid para salvar alguns pedidos na carga inicial do banco
 	@Autowired
 	private OrderRepository orderRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
+		// instanciando objetos da categoria repositorio
+		Category cat1 = new Category(null, "Electronics");
+		Category cat2 = new Category(null, "Books");
+		Category cat3 = new Category(null, "Computers");
+		
+		// Salvar no banco as categorias acima chamando:
+		categoryRepository.saveAll(Arrays.asList(cat1,cat2,cat3));
+		
+		
+		
 		// Instanciar objetos do tipo usuario
 		User u1 = new User(null, "Isis Cupertino", "isi@gmail.com", "988888888", "123456");
 		User u2 = new User(null, "Pablo Cupertino", "pablo@gmail.com", "977777777", "123456");
