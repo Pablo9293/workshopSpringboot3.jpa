@@ -2,10 +2,14 @@ package com.educandoweb.courser.entities;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb user") //palavra reservada user no banco h2
@@ -17,13 +21,16 @@ public class User implements Serializable{
 	@Id
 	// chave numerica autoincrement
 	@GeneratedValue(strategy = GenerationType.IDENTITY)//definicao de estrategia de autoincremento
-	private Long id;
+	private Long id;   // Associaçoes
 	private String name;
 	private String email;
 	private String phone;
 	private String passwword;
 	
-	// construtor vazio devido ao frame
+	@OneToMany(mappedBy ="client") // do outro lado da associação esta mapeado pelo atributo client 1:m
+	private List<Order> orders = new ArrayList<>(); // Instancia esta associação pois e uma lista
+	
+	
 	
 	public User() {
 		
@@ -77,6 +84,9 @@ public class User implements Serializable{
 	public void setPasswword(String passwword) {
 		this.passwword = passwword;
 	}
+	public List<Order> getOrders() {
+		return orders;
+	}
 
 	@Override
 	public int hashCode() {
@@ -102,6 +112,8 @@ public class User implements Serializable{
 			return false;
 		return true;
 	}
+
+	
 
 	
 
