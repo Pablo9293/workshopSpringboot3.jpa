@@ -1,9 +1,10 @@
 package com.educandoweb.courser.entities;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class User implements Serializable{
 	private String email;
 	private String phone;
 	private String passwword;
-	
+	@JsonIgnore
 	@OneToMany(mappedBy ="client") // do outro lado da associação esta mapeado pelo atributo client 1:m
 	private List<Order> orders = new ArrayList<>(); // Instancia esta associação pois e uma lista
 	

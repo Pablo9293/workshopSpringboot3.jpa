@@ -3,6 +3,8 @@ package com.educandoweb.courser.entities;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,10 +24,14 @@ public class Order implements Serializable {
 	// chave numerica autoincrement
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // definicao de estrategia de autoincremento
 	private Long id;
+
+	// Para garantir que o meu instant seja mostrado pelo jason no formato de string
+	// ISO 8601
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
-    
+
 	@ManyToOne // Jpa chave estrangeira do lado pedido m:1
-	@JoinColumn(name = "client_id")//nome da chave estrangeira que vai ter no banco
+	@JoinColumn(name = "client_id") // nome da chave estrangeira que vai ter no banco
 	private User client;
 
 	// construtores
