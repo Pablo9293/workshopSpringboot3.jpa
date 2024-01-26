@@ -1,6 +1,7 @@
 package com.educandoweb.courser.services;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,11 @@ public class UserService {
 		Optional<User> obj = repository.findById(Id);
 		return obj.get();
 	}
+	//salvar no banco um dado usuario
+	
+	public User insert(User obj){// retorna o usuario salvo
+         return repository.save(obj);
+	}  
 }
+
 
