@@ -8,8 +8,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 //mapeamento relacional do Jpa
 @Entity
@@ -28,8 +30,10 @@ public class Product implements Serializable {
 	// Associações
 	// Vamos usar o set que e um conjunto do java,evita que o mesmo produto tenha a
 	// ocorrencia de mais de uma categoria
-	
-	@Transient//impede que o JPA tente interpretar o Set HashSet
+	// nome da tabela e as chaves estrangeiras que vao associa a tabela produto e a
+	// tabela categoria
+	@ManyToMany
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>(); // Instanciação garante que a minha categoria comece vazia e não
 														// nula
 

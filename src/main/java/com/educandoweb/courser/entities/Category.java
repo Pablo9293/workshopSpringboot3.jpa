@@ -4,30 +4,34 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+
 @Entity
 @Table(name = "tb_category")
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	// chave numerica autoincrement
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//definicao de estrategia de autoincremento
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // definicao de estrategia de autoincremento
 	private Long id;
 	private String name;
-	
-	//Associações
-	@Transient
+
+	@JsonIgnore // Resolve o Loop no Postman
+	@ManyToMany(mappedBy = "categories") // entre aspas o nome da coleção que tem na classe produto
 	private Set<Product> products = new HashSet<>();
+
 	// construtores
-	
+
 	public Category() {
-		
+
 	}
 
 	public Category(Long id, String name) {
@@ -51,6 +55,7 @@ public class Category implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public Set<Product> getProducts() {
 		return products;
 	}
@@ -80,8 +85,4 @@ public class Category implements Serializable {
 		return true;
 	}
 
-	
-
-	
-	
 }
