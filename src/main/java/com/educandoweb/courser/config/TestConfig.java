@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.educandoweb.courser.entities.Category;
 import com.educandoweb.courser.entities.Order;
 import com.educandoweb.courser.entities.OrderItem;
+import com.educandoweb.courser.entities.Payment;
 import com.educandoweb.courser.entities.Product;
 import com.educandoweb.courser.entities.User;
 import com.educandoweb.courser.entities.enums.OrderStatus;
@@ -92,6 +93,14 @@ public class TestConfig implements CommandLineRunner {
 		
 		//seed para salvar no banco
 		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+		
+		Payment py1 = new Payment(null , Instant.parse("2019-06-20T21:53:07Z"), o1 );
+		
+		// Para salvar
+		o1.setPayment(py1); // associação do pedido o1 com o pagamento pay1, 
+		//assim o pedido e salvo novament no JPA
+		orderRepository.save(o1);
+		
 
 	}
 

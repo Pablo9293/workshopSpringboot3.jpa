@@ -8,6 +8,7 @@ import java.util.Set;
 import com.educandoweb.courser.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -41,6 +43,10 @@ public class Order implements Serializable {
 	private User client;
 	@OneToMany(mappedBy = "id.order") // id.order e onde tem o pedido
 	private Set<OrderItem> items = new HashSet<>();// como e uma coleção vamos inicialo
+	//atributo associado
+	@OneToOne(mappedBy = "order" , cascade = CascadeType.ALL) // atributo localizado na entidade pagamento
+	// O segundo atributo garante que se tenha o mesmo id em ambas as entidades,pois a relação e 1:1
+	private Payment payment;// um pedido tem um pagamento
 	
 
 	// construtores
@@ -89,6 +95,15 @@ public class Order implements Serializable {
 	public void setClient(User client) {
 		this.client = client;
 	}
+	
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
 	public Set<OrderItem> getitems(){
 		return items;
 	}
