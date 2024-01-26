@@ -2,6 +2,8 @@ package com.educandoweb.courser.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.educandoweb.courser.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -12,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,6 +39,9 @@ public class Order implements Serializable {
 	@ManyToOne // Jpa chave estrangeira do lado pedido m:1
 	@JoinColumn(name = "client_id") // nome da chave estrangeira que vai ter no banco
 	private User client;
+	@OneToMany(mappedBy = "id.order") // id.order e onde tem o pedido
+	private Set<OrderItem> items = new HashSet<>();// como e uma coleção vamos inicialo
+	
 
 	// construtores
 	public Order() {
@@ -83,6 +89,10 @@ public class Order implements Serializable {
 	public void setClient(User client) {
 		this.client = client;
 	}
+	public Set<OrderItem> getitems(){
+		return items;
+	}
+
 
 	@Override
 	public int hashCode() {

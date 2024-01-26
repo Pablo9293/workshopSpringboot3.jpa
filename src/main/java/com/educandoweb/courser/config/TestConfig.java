@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.educandoweb.courser.entities.Category;
 import com.educandoweb.courser.entities.Order;
+import com.educandoweb.courser.entities.OrderItem;
 import com.educandoweb.courser.entities.Product;
 import com.educandoweb.courser.entities.User;
 import com.educandoweb.courser.entities.enums.OrderStatus;
 import com.educandoweb.courser.repositories.CategoryRepository;
+import com.educandoweb.courser.repositories.OrderItemRepositoy;
 import com.educandoweb.courser.repositories.OrderRepository;
 import com.educandoweb.courser.repositories.ProductRepository;
 import com.educandoweb.courser.repositories.UserRepository;
@@ -32,6 +34,8 @@ public class TestConfig implements CommandLineRunner {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private OrderItemRepositoy orderItemRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -80,6 +84,14 @@ public class TestConfig implements CommandLineRunner {
 		//Salvar os usuarios no banco de dados
 		userRepository.saveAll(Arrays.asList(u1 , u2));
 		orderRepository.saveAll(Arrays.asList(o1,o2,o3));
+		//objetos instanciados em memoria
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+		
+		//seed para salvar no banco
+		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
 
 	}
 
