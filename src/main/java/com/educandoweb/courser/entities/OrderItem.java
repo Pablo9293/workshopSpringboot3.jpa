@@ -36,6 +36,7 @@ public class OrderItem implements Serializable {
 	public void setOrder(Order order) { // informa um pedidio e o metodo retorna no id para jogar o pedido la dentro
 		id.setOrder(order);
 	}
+	
 	public Product getProduct() {
 		return id.getProduct();
 	}
