@@ -12,6 +12,8 @@ import com.educandoweb.courser.repositories.UserRepository;
 import com.educandoweb.courser.services.exceptions.DatabaseException;
 import com.educandoweb.courser.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service // registra uma classe de servico como um componente do spring
 public class UserService {
 
@@ -40,19 +42,26 @@ public class UserService {
 	public void delete(long id) {
 		try {
 			repository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) { 
+		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
 
-		}catch(RuntimeException e) {
+		} catch (RuntimeException e) {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
 
 	// atualizar um dado usuario no banco
 	public User update(Long id, User obj) {
-		User entity = repository.getReferenceById(id);
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			User entity = repository.getReferenceById(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			  
+			  throw new DatabaseException(e.getMessage());
+
+		}
+		
 	}
 
 	private void updateData(User entity, User obj) {
