@@ -1,7 +1,6 @@
 package com.educandoweb.courser.services;
 
 import java.util.List;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.educandoweb.courser.entities.User;
 import com.educandoweb.courser.repositories.UserRepository;
+import com.educandoweb.courser.services.exceptions.ResourceNotFoundException;
 @Service // registra uma classe de servico como um componente do spring
 public class UserService {
 
@@ -20,9 +20,9 @@ public class UserService {
 	public List<User> findAll(){ // operacao na camada de serviço
 		return repository.findAll();
 	}
-	public User findById(Long Id) {
-		Optional<User> obj = repository.findById(Id);
-		return obj.get();
+	public User findById(Long id) {
+		Optional<User> obj = repository.findById(id);
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); //tenta dar o get, se não tiver usuario,lanca a esceção
 	}
 	//salvar no banco um dado usuario
 	
